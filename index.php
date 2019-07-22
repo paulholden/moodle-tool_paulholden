@@ -22,15 +22,22 @@
 
 require_once(__DIR__ . '/../../../config.php');
 
+$id = optional_param('id', 0, PARAM_INT);
+
 $url = new moodle_url('/admin/tool/paulholden/index.php');
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('report');
 
-$strhelloworld = get_string('helloworld', 'tool_paulholden');
+$strhelloworld = get_string('helloworld', 'tool_paulholden', $id);
 
 $PAGE->set_title($strhelloworld);
 $PAGE->set_heading(get_string('pluginname', 'tool_paulholden'));
 
-echo $strhelloworld;
+echo $OUTPUT->header();
+echo $OUTPUT->heading($strhelloworld);
+
+echo html_writer::div($strhelloworld);
+
+echo $OUTPUT->footer();
