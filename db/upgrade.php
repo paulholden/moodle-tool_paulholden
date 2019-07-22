@@ -72,6 +72,20 @@ function xmldb_tool_paulholden_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072206, 'tool', 'paulholden');
     }
 
+    if ($oldversion < 2019072207) {
+
+        // Define index courseidname (unique) to be added to tool_paulholden.
+        $table = new xmldb_table('tool_paulholden');
+        $index = new xmldb_index('courseidname', XMLDB_INDEX_UNIQUE, ['courseid', 'name']);
+
+        // Conditionally launch add index courseidname.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Paulholden savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072207, 'tool', 'paulholden');
+    }
 
     return true;
 }
