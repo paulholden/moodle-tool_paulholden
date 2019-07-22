@@ -24,13 +24,15 @@ require_once(__DIR__ . '/../../../config.php');
 
 $id = required_param('id', PARAM_INT);
 
-$url = new moodle_url('/admin/tool/paulholden/index.php', ['id' => $id]);
+$course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
+
+$url = new moodle_url('/admin/tool/paulholden/index.php', ['id' => $course->id]);
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('report');
 
-$strhelloworld = get_string('helloworld', 'tool_paulholden', $id);
+$strhelloworld = get_string('helloworld', 'tool_paulholden', $course->id);
 
 $PAGE->set_title($strhelloworld);
 $PAGE->set_heading(get_string('pluginname', 'tool_paulholden'));
@@ -38,6 +40,6 @@ $PAGE->set_heading(get_string('pluginname', 'tool_paulholden'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strhelloworld);
 
-echo html_writer::div($strhelloworld);
+echo html_writer::div($course->fullname);
 
 echo $OUTPUT->footer();
