@@ -22,25 +22,21 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Extend course administration menu
- *
- * @param navigation_node $parentnode
- * @param stdClass $course
- * @param context_course $context
- * @return void
- */
-function tool_paulholden_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
-    $strpluginname = get_string('pluginname', 'tool_paulholden');
+$capabilities = [
+    'tool/paulholden:view' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'student' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
 
-    if (has_capability('tool/paulholden:view', $context)) {
-        $parentnode->add(
-            $strpluginname,
-            new moodle_url('/admin/tool/paulholden/index.php', ['id' => $course->id]),
-            navigation_node::TYPE_SETTING,
-            $strpluginname,
-            'paulholden',
-            new pix_icon('icon', $strpluginname, 'tool_paulholden')
-        );
-    }
-}
+    'tool/paulholden:edit' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
+];

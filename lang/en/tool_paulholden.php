@@ -24,6 +24,8 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['completed'] = 'Completed';
 $string['helloworld'] = 'Hello world ({$a})';
+$string['paulholden:edit'] = 'Edit plugin data';
+$string['paulholden:view'] = 'View plugin data';
 $string['pluginname'] = 'My first Moodle plugin';
 $string['priority'] = 'Priority';
 $string['timecreated'] = 'Time created';

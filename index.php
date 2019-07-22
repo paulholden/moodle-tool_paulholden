@@ -25,12 +25,13 @@ require_once(__DIR__ . '/../../../config.php');
 $id = required_param('id', PARAM_INT);
 
 $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
+require_login($course, false);
+
+$context = context_course::instance($course->id);
+require_capability('tool/paulholden:view', $context);
 
 $url = new moodle_url('/admin/tool/paulholden/index.php', ['id' => $course->id]);
-
-$PAGE->set_context(context_system::instance());
 $PAGE->set_url($url);
-$PAGE->set_pagelayout('report');
 
 $strhelloworld = get_string('helloworld', 'tool_paulholden', $course->id);
 
