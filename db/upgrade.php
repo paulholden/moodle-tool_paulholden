@@ -59,5 +59,19 @@ function xmldb_tool_paulholden_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072205, 'tool', 'paulholden');
     }
 
+    if ($oldversion < 2019072206) {
+
+        // Define key courseid (foreign) to be added to tool_paulholden.
+        $table = new xmldb_table('tool_paulholden');
+        $key = new xmldb_key('courseid', XMLDB_KEY_FOREIGN, ['courseid'], 'course', ['id']);
+
+        // Launch add key courseid.
+        $dbman->add_key($table, $key);
+
+        // Paulholden savepoint reached.
+        upgrade_plugin_savepoint(true, 2019072206, 'tool', 'paulholden');
+    }
+
+
     return true;
 }
