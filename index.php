@@ -22,9 +22,9 @@
 
 require_once(__DIR__ . '/../../../config.php');
 
-$id = optional_param('id', 0, PARAM_INT);
+$id = required_param('id', PARAM_INT);
 
-$url = new moodle_url('/admin/tool/paulholden/index.php');
+$url = new moodle_url('/admin/tool/paulholden/index.php', ['id' => $id]);
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url($url);

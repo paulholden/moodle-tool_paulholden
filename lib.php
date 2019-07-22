@@ -22,8 +22,23 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'tool_paulholden';
-$plugin->release   = '1.3';
-$plugin->version   = 2019072203;
-$plugin->requires  = 2019052000;
-$plugin->maturity  = MATURITY_STABLE;
+/**
+ * Extend course administration menu
+ *
+ * @param navigation_node $parentnode
+ * @param stdClass $course
+ * @param context_course $context
+ * @return void
+ */
+function tool_paulholden_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
+    $strpluginname = get_string('pluginname', 'tool_paulholden');
+
+    $parentnode->add(
+        $strpluginname,
+        new moodle_url('/admin/tool/paulholden/index.php', ['id' => $course->id]),
+        navigation_node::TYPE_SETTING,
+        $strpluginname,
+        'paulholden',
+        new pix_icon('icon', $strpluginname, 'tool_paulholden')
+    );
+}
