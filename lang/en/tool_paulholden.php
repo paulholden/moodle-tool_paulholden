@@ -22,5 +22,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['completed'] = 'Completed';
 $string['helloworld'] = 'Hello world ({$a})';
 $string['pluginname'] = 'My first Moodle plugin';
+$string['priority'] = 'Priority';
+$string['timecreated'] = 'Time created';
+$string['timemodified'] = 'Time modified';

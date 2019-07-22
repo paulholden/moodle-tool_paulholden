@@ -40,6 +40,8 @@ $PAGE->set_heading(get_string('pluginname', 'tool_paulholden'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strhelloworld);
 
-echo html_writer::div($course->fullname);
+$table = new tool_paulholden\table($course->id);
+$table->define_baseurl($PAGE->url);
+$table->out(0, false);
 
 echo $OUTPUT->footer();

@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_paulholden';
-$plugin->release   = '1.4';
-$plugin->version   = 2019072207;
+$plugin->release   = '1.5';
+$plugin->version   = 2019072208;
 $plugin->requires  = 2019052000;
 $plugin->maturity  = MATURITY_STABLE;
