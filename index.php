@@ -20,10 +20,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../config.php');
 
-$plugin->component = 'tool_paulholden';
-$plugin->release   = '1.1';
-$plugin->version   = 2019072201;
-$plugin->requires  = 2019052000;
-$plugin->maturity  = MATURITY_STABLE;
+$url = new moodle_url('/admin/tool/paulholden/index.php');
+
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url($url);
+$PAGE->set_pagelayout('report');
+
+$strhelloworld = get_string('helloworld', 'tool_paulholden');
+
+$PAGE->set_title($strhelloworld);
+$PAGE->set_heading(get_string('pluginname', 'tool_paulholden'));
+
+echo $strhelloworld;
