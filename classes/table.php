@@ -81,16 +81,29 @@ class table extends \table_sql {
     protected function col_name(stdClass $record) {
         global $OUTPUT;
 
+        $icons = [];
+
         if (has_capability('tool/paulholden:edit', $this->context)) {
-            $editicon = $OUTPUT->action_icon(
-                new moodle_url('/admin/tool/paulholden/edit.php', ['courseid' => $record->courseid, 'id' => $record->id]),
-                new pix_icon('/t/edit', get_string('edit'), 'moodle')
+            $icons[] = $OUTPUT->action_icon(
+                new moodle_url('/admin/tool/paulholden/edit.php', [
+                    'courseid' => $record->courseid,
+                    'id' => $record->id,
+                ]),
+                new pix_icon('t/edit', get_string('edit'), 'moodle')
             );
-        } else {
-            $editicon = '';
+
+            $icons[] = $OUTPUT->action_icon(
+                new moodle_url('/admin/tool/paulholden/edit.php', [
+                    'courseid' => $record->courseid,
+                    'id' => $record->id,
+                    'delete' => 1,
+                    'sesskey' => sesskey(),
+                ]),
+                new pix_icon('t/delete', get_string('delete'), 'moodle')
+            );
         }
 
-        return $editicon . format_string($record->name, true, $this->context);
+        return implode('', $icons) . format_string($record->name, true, $this->context);
     }
 
     /**

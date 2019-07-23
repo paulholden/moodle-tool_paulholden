@@ -50,7 +50,7 @@ class edit extends \moodleform {
         $mform->setType('courseid', PARAM_INT);
 
         $mform->addElement('text', 'name', get_string('name'));
-        $mform->setType('name', PARAM_TEXT);
+        $mform->setType('name', PARAM_NOTAGS);
 
         $mform->addElement('advcheckbox', 'completed', get_string('completed', 'tool_paulholden'));
 
