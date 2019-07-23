@@ -23,6 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['completed'] = 'Completed';
+$string['errorduplicatename'] = 'Name already exists in current course';
 $string['helloworld'] = 'Hello world ({$a})';
 $string['paulholden:edit'] = 'Edit plugin data';
 $string['paulholden:view'] = 'View plugin data';

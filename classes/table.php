@@ -23,6 +23,8 @@
 namespace tool_paulholden;
 
 use context_course;
+use moodle_url;
+use pix_icon;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
@@ -77,7 +79,18 @@ class table extends \table_sql {
      * @return string
      */
     protected function col_name(stdClass $record) {
-        return format_string($record->name, true, $this->context);
+        global $OUTPUT;
+
+        if (has_capability('tool/paulholden:edit', $this->context)) {
+            $editicon = $OUTPUT->action_icon(
+                new moodle_url('/admin/tool/paulholden/edit.php', ['courseid' => $record->courseid, 'id' => $record->id]),
+                new pix_icon('/t/edit', get_string('edit'), 'moodle')
+            );
+        } else {
+            $editicon = '';
+        }
+
+        return $editicon . format_string($record->name, true, $this->context);
     }
 
     /**

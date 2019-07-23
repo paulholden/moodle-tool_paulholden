@@ -45,4 +45,10 @@ $table = new tool_paulholden\table($course->id);
 $table->define_baseurl($PAGE->url);
 $table->out(0, false);
 
+if (has_capability('tool/paulholden:edit', $context)) {
+    echo $OUTPUT->single_button(
+        new moodle_url('/admin/tool/paulholden/edit.php', ['courseid' => $course->id]), get_string('add')
+    );
+}
+
 echo $OUTPUT->footer();
