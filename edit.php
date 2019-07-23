@@ -22,7 +22,7 @@
 
 require_once(__DIR__ . '/../../../config.php');
 
-$courseid = required_param('courseid',PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
