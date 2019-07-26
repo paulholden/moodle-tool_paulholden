@@ -65,6 +65,7 @@ class table extends \table_sql {
         $this->define_headers(array_values($columns));
 
         // Table configuration.
+        $this->set_attribute('class', $this->attributes['class'] .' tool-paulholden-table');
         $this->sortable(true, 'timecreated', SORT_DESC);
 
         // Initialize table SQL properties.
