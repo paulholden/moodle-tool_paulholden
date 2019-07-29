@@ -22,8 +22,28 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'tool_paulholden';
-$plugin->release   = '2.0';
-$plugin->version   = 2019072900;
-$plugin->requires  = 2019052000;
-$plugin->maturity  = MATURITY_STABLE;
+use tool_paulholden\api;
+
+/**
+ * Plugin data generator
+ *
+ * @package    tool_paulholden
+ * @copyright  2019 Paul Holden (paulh@moodle.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class tool_paulholden_generator extends testing_block_generator {
+
+    /**
+     * Create new record
+     *
+     * @param array $record
+     * @return stdClass
+     */
+    public function create_record(array $record) : stdClass {
+        $record = (object) $record;
+
+        $id = api::insert_record($record);
+
+        return api::get_record($record->courseid, $id);
+    }
+}

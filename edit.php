@@ -22,6 +22,8 @@
 
 require_once(__DIR__ . '/../../../config.php');
 
+use tool_paulholden\api;
+
 $courseid = required_param('courseid', PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 $delete = optional_param('delete', 0, PARAM_BOOL);
@@ -35,12 +37,12 @@ require_capability('tool/paulholden:edit', $context);
 $returnurl = new moodle_url('/admin/tool/paulholden/index.php', ['id' => $course->id]);
 
 if ($id) {
-    $record = $DB->get_record('tool_paulholden', ['courseid' => $course->id, 'id' => $id], '*', MUST_EXIST);
+    $record = api::get_record($course->id, $id);
 
     if ($delete) {
         require_sesskey();
 
-        $DB->delete_records('tool_paulholden', ['id' => $record->id]);
+        api::delete_record($record->id);
 
         redirect($returnurl);
     }
@@ -57,13 +59,9 @@ if ($mform->is_cancelled()) {
     redirect($returnurl);
 } else if ($data = $mform->get_data()) {
     if ($data->id) {
-        $data->timemodified = time();
-
-        $DB->update_record('tool_paulholden', $data);
+        api::update_record($data);
     } else {
-        $data->timecreated = $data->timemodified = time();
-
-        $DB->insert_record('tool_paulholden', $data);
+        api::insert_record($data);
     }
 
     redirect($returnurl);
