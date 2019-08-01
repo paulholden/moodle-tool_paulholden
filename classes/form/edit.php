@@ -36,6 +36,21 @@ require_once($CFG->libdir . '/formslib.php');
 class edit extends \moodleform {
 
     /**
+     * Editor options
+     *
+     * @return array
+     */
+    public static function editor_options() {
+        global $PAGE;
+
+        return [
+            'context' => $PAGE->context,
+            'maxfiles' => -1,
+            'maxbytes' => 0,
+        ];
+    }
+
+    /**
      * Form definition
      *
      * @return void
@@ -51,6 +66,10 @@ class edit extends \moodleform {
 
         $mform->addElement('text', 'name', get_string('name'));
         $mform->setType('name', PARAM_NOTAGS);
+
+        $mform->addElement('editor', 'description_editor', get_string('description'), null,
+            self::editor_options());
+        $mform->setType('description_editor', PARAM_RAW);
 
         $mform->addElement('advcheckbox', 'completed', get_string('completed', 'tool_paulholden'));
 

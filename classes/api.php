@@ -22,7 +22,9 @@
 
 namespace tool_paulholden;
 
+use context_course;
 use stdClass;
+use tool_paulholden\form\edit as edit_form;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -61,8 +63,12 @@ class api {
         global $DB;
 
         $record->timecreated = $record->timemodified = time();
+        $record->id = $DB->insert_record(self::TABLE, $record);
 
-        return $DB->insert_record(self::TABLE, $record);
+        // We now need to update the record to ensure files attached to the editor element are processed.
+        self::update_record($record);
+
+        return $record->id;
     }
 
     /**
@@ -73,6 +79,13 @@ class api {
      */
     public static function update_record(stdClass $record) : bool {
         global $DB;
+
+        // Prepare content of the description editor element to be saved to database.
+        if (isset($record->description_editor)) {
+            $context = context_course::instance($record->courseid);
+            $record = file_postupdate_standard_editor($record, 'description', edit_form::editor_options(), $context,
+                'tool_paulholden', 'attachment', $record->id);
+        }
 
         $record->timemodified = time();
 

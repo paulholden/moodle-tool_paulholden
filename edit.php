@@ -23,6 +23,7 @@
 require_once(__DIR__ . '/../../../config.php');
 
 use tool_paulholden\api;
+use tool_paulholden\form\edit as form_edit;
 
 $courseid = required_param('courseid', PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
@@ -46,13 +47,17 @@ if ($id) {
 
         redirect($returnurl);
     }
+
+    // Prepare file area for description editor element.
+    file_prepare_standard_editor($record, 'description', form_edit::editor_options(), $PAGE->context,
+        'tool_paulholden', 'attachment', $record->id);
 } else {
     $record = (object)[
         'courseid' => $course->id,
     ];
 }
 
-$mform = new tool_paulholden\form\edit();
+$mform = new form_edit();
 $mform->set_data($record);
 
 if ($mform->is_cancelled()) {

@@ -24,6 +24,7 @@ namespace tool_paulholden;
 
 use context_course;
 use moodle_url;
+use tool_paulholden\form\edit as edit_form;
 use pix_icon;
 use stdClass;
 
@@ -56,6 +57,7 @@ class table extends \table_sql {
         // Define columns.
         $columns = [
             'name' => get_string('name'),
+            'description' => get_string('description'),
             'completed' => get_string('completed', 'tool_paulholden'),
             'priority' => get_string('priority', 'tool_paulholden'),
             'timecreated' => get_string('timecreated', 'tool_paulholden'),
@@ -105,6 +107,21 @@ class table extends \table_sql {
         }
 
         return implode('', $icons) . format_string($record->name, true, $this->context);
+    }
+
+    /**
+     * Format record description column
+     *
+     * @param stdClass $record
+     * @return string
+     */
+    protected function col_description(stdClass $record) {
+        $options = edit_form::editor_options();
+
+        $description = file_rewrite_pluginfile_urls($record->description, 'pluginfile.php', $options['context']->id,
+            'tool_paulholden', 'attachment', $record->id, $options);
+
+        return format_text($description, $record->descriptionformat, $options);
     }
 
     /**

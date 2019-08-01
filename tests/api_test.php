@@ -52,6 +52,7 @@ class tool_paulholden_api_testcase extends advanced_testcase {
         $this->record = $this->getDataGenerator()->get_plugin_generator('tool_paulholden')->create_record([
             'courseid' => $this->course->id,
             'name' => 'Something',
+            'description' => 'Something about this',
             'completed' => 0,
         ]);
     }
@@ -80,15 +81,17 @@ class tool_paulholden_api_testcase extends advanced_testcase {
         $record = (object) [
             'courseid' => $this->course->id,
             'name' => 'Something new',
+            'description' => 'Something new about this',
             'completed' => 0,
         ];
 
         $id = api::insert_record($record);
-        $this->assertInternalType('int', $id);
+        $this->assertIsInt($id);
 
         $actual = $DB->get_record('tool_paulholden', ['id' => $id]);
         $this->assertEquals($record->courseid, $actual->courseid);
         $this->assertEquals($record->name, $actual->name);
+        $this->assertEquals($record->description, $actual->description);
         $this->assertEquals($record->completed, $actual->completed);
     }
 
@@ -101,11 +104,13 @@ class tool_paulholden_api_testcase extends advanced_testcase {
         global $DB;
 
         $this->record->name = 'Something else';
+        $this->record->description = 'Something else about this';
         $this->record->completed = 1;
         api::update_record($this->record);
 
         $actual = $DB->get_record('tool_paulholden', ['id' => $this->record->id]);
         $this->assertEquals($this->record->name, $actual->name);
+        $this->assertEquals($this->record->description, $actual->description);
         $this->assertEquals($this->record->completed, $actual->completed);
     }
 

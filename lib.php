@@ -20,6 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use tool_paulholden\api;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -43,4 +45,43 @@ function tool_paulholden_extend_navigation_course(navigation_node $parentnode, s
             new pix_icon('icon', $strpluginname, 'tool_paulholden')
         );
     }
+}
+
+/**
+ * Serve plugin files
+ *
+ * @param stdClass $course
+ * @param stdClass|null $cm
+ * @param context $context
+ * @param string $filearea
+ * @param array $args
+ * @param bool $forcedownload
+ * @param array $options
+ * @return bool|null
+ */
+function tool_paulholden_pluginfile(stdClass $course, ?stdClass $cm, context $context, string $filearea, array $args, bool $forcedownload, array $options = []) : ?bool {
+    if (!$context instanceof context_course) {
+        return false;
+    }
+
+    require_login($course);
+    require_capability('tool/paulholden:view', $context);
+
+    if (strcmp($filearea, 'attachment') != 0) {
+        return false;
+    }
+
+    list($id, $filename) = $args;
+
+    $record = api::get_record($course->id, $id);
+
+    // Retrieve the file from the Files API.
+    $file = get_file_storage()->get_file($context->id, 'tool_paulholden', $filearea, $record->id, '/', $filename);
+    if (!$file or $file->is_directory()) {
+        return false;
+    }
+
+    // Finally send the file.
+    \core\session\manager::write_close();
+    send_stored_file($file, null, 0, true, $options);
 }
