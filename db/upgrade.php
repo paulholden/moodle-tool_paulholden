@@ -87,5 +87,28 @@ function xmldb_tool_paulholden_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019072207, 'tool', 'paulholden');
     }
 
+    if ($oldversion < 2019080100) {
+
+        // Define field description to be added to tool_paulholden.
+        $table = new xmldb_table('tool_paulholden');
+        $field = new xmldb_field('description', XMLDB_TYPE_TEXT, null, null, null, null, null, 'name');
+
+        // Conditionally launch add field description.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field descriptionformat to be added to tool_paulholden.
+        $field = new xmldb_field('descriptionformat', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'description');
+
+        // Conditionally launch add field descriptionformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Paulholden savepoint reached.
+        upgrade_plugin_savepoint(true, 2019080100, 'tool', 'paulholden');
+    }
+
     return true;
 }
