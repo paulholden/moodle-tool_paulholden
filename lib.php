@@ -59,7 +59,9 @@ function tool_paulholden_extend_navigation_course(navigation_node $parentnode, s
  * @param array $options
  * @return bool|null
  */
-function tool_paulholden_pluginfile(stdClass $course, ?stdClass $cm, context $context, string $filearea, array $args, bool $forcedownload, array $options = []) : ?bool {
+function tool_paulholden_pluginfile(stdClass $course, $cm, context $context, string $filearea, array $args,
+        bool $forcedownload, array $options = []) {
+
     if (!$context instanceof context_course) {
         return false;
     }
